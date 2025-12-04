@@ -1,0 +1,28 @@
+.dash-page { min-height: 100vh; background: #f5f7ff; padding: 24px; }
+.dash-container { max-width: 1120px; margin: 0 auto; }
+.dash-header { display:flex; justify-content:space-between; align-items:center; background:#fff; padding:16px 20px; border-radius:14px; box-shadow:0 10px 30px rgba(25,41,86,.08); border:1px solid rgba(25,41,86,.08); margin-bottom:20px; }
+.dash-title { margin:0; font-size:22px; font-weight:700; color:#1b2a4b; }
+.dash-sub { margin:4px 0 0; color:#5b6b88; font-size:14px; }
+.dash-logout { background:#ff4d4f; color:#fff; border:none; border-radius:10px; padding:8px 14px; font-weight:600; }
+.dash-card { background:#fff; padding:20px; border-radius:14px; box-shadow:0 10px 30px rgba(25,41,86,.08); border:1px solid rgba(25,41,86,.08); margin-bottom:20px; color:#1b2a4b; }
+.dash-card h2 { margin:0 0 10px; font-size:18px; color:#1b2a4b; }
+.dash-inline { display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; }
+.dash-label { display:block; font-size:13px; color:#3a4a68; margin-bottom:6px; }
+.dash-input { width:220px; border:1px solid #d7deef; background:#f9fbff; color:#1b2a4b; border-radius:10px; padding:10px 12px; font-size:14px; }
+.dash-input:focus { outline:3px solid rgba(100,108,255,.25); border-color:#646cff; background:#fff; }
+.dash-button { background:#646cff; color:#fff; border:none; border-radius:10px; padding:10px 14px; font-weight:600; }
+.dash-table { width:100%; border-collapse:collapse; }
+.dash-thead th { text-align:left; font-size:12px; color:#6b7a99; text-transform:uppercase; padding:12px 16px; border-bottom:1px solid #e1e6f5; }
+.dash-row td { padding:14px 16px; border-top:1px solid #e9eefb; color:#1b2a4b; }
+.dash-thead th, .dash-row td { background-color:#fff; }
+.dash-badge { display:inline-block; padding:4px 8px; font-size:12px; border-radius:999px; }
+.badge-approved { background:#e9f8f0; color:#177a3e; }
+.badge-rejected { background:#fde8e8; color:#b00020; }
+.badge-paid { background:#e9f0ff; color:#2a5bd7; }
+.badge-pending { background:#fff6e5; color:#9a6a00; }
+.dash-action-text { font-weight:600; color:#177a3e; cursor:pointer; }
+.dash-action-text.reject { color:#b00020; }
+.dash-small-btn { background:#4f46e5; color:#fff; border:none; border-radius:8px; padding:8px 10px; font-size:13px; }
+.dash-empty { text-align:center; padding:16px; color:#6b7a99; }
+.dash-msg { color:#177a3e; margin-bottom:8px; }
+.dash-err { color:#b00020; margin-bottom:8px; }
