@@ -56,12 +56,3 @@ CREATE TABLE IF NOT EXISTS repayments (
     FOREIGN KEY (loan_id) REFERENCES loans(id) ON DELETE CASCADE
 );
 
-INSERT INTO users (full_name, email, password_hash, role) VALUES 
-('Admin Officer', 'admin@bank.com', 'password123', 'admin'),
-('John Doe', 'john@gmail.com', 'password123', 'customer');
-
-INSERT INTO loans (user_id, amount, term_weeks, status, remaining_balance) VALUES 
-(2, 5000.00, 12, 'approved', 4500.00); 
-
-INSERT INTO repayments (loan_id, amount) VALUES 
-(1, 500.00);
