@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import api from '../utils/api';
 import '../styles/dashboard.css';
+import { toMonthlyCount, generateEmiSchedule } from '../utils/emi';
 
 const Dashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -33,6 +34,8 @@ const Dashboard = () => {
     const [incomeFile, setIncomeFile] = useState(null);
     const [bankStmtFile, setBankStmtFile] = useState(null);
     const [disbFile, setDisbFile] = useState(null);
+    const [annualRatePct, setAnnualRatePct] = useState('12');
+    const [emiPreview, setEmiPreview] = useState(null);
 
     useEffect(() => {
         fetchLoans();
@@ -53,6 +56,7 @@ const Dashboard = () => {
             const formData = new FormData();
             formData.append('amount', amount);
             formData.append('term_weeks', term);
+            formData.append('interest_rate', annualRatePct);
             if (docFile) formData.append('document', docFile);
             if (kycFile) formData.append('kyc', kycFile);
             if (incomeFile) formData.append('income_proof', incomeFile);
@@ -138,6 +142,16 @@ const Dashboard = () => {
                                 />
                             </div>
                             <div>
+                                <label className="dash-label">Interest Rate (% annual)</label>
+                                <input
+                                    className="dash-input"
+                                    type="number"
+                                    value={annualRatePct}
+                                    onChange={(e) => setAnnualRatePct(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
                                 <label className="dash-label">Supporting Document</label>
                                 <input
                                     className="dash-input"
@@ -164,6 +178,64 @@ const Dashboard = () => {
                             </div>
                             <button type="submit" className="dash-button">Apply</button>
                         </form>
+                                                <div style={{ marginTop: 12 }}>
+                                                        <button
+                                                            className="dash-small-btn"
+                                                            onClick={() => {
+                                                                const months = toMonthlyCount(Number(term || 0));
+                                                                const startDate = new Date();
+                                                                const plan = generateEmiSchedule({ amount: Number(amount || 0), annualRatePct: Number(annualRatePct || 0), months, startDate });
+                                                                setEmiPreview(plan);
+                                                            }}
+                                                            disabled={!amount || !term}
+                                                        >
+                                                            Preview EMI Plan
+                                                        </button>
+                                                        {emiPreview && (
+                                                            <div className="dash-card" style={{ marginTop: 8 }}>
+                                                                <h3 style={{ marginTop: 0 }}>EMI Preview</h3>
+                                                                <div className="dash-inline">
+                                                                    <div>
+                                                                        <span className="dash-label">EMI</span>
+                                                                        <div>₹{emiPreview.emi}</div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <span className="dash-label">Total Interest</span>
+                                                                        <div>₹{emiPreview.totalInterest}</div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <span className="dash-label">Months</span>
+                                                                        <div>{toMonthlyCount(Number(term || 0))}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <table className="dash-table" style={{ marginTop: 8 }}>
+                                                                    <thead className="dash-thead">
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Due Date</th>
+                                                                            <th>EMI</th>
+                                                                            <th>Principal</th>
+                                                                            <th>Interest</th>
+                                                                            <th>Remaining</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {emiPreview.schedule.slice(0, 6).map(row => (
+                                                                            <tr className="dash-row" key={row.installment}>
+                                                                                <td>{row.installment}</td>
+                                                                                <td>{new Date(row.dueDate).toLocaleDateString()}</td>
+                                                                                <td>₹{row.emi}</td>
+                                                                                <td>₹{row.principal}</td>
+                                                                                <td>₹{row.interest}</td>
+                                                                                <td>₹{row.remaining}</td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                                <div className="dash-empty">Showing first 6 installments</div>
+                                                            </div>
+                                                        )}
+                                                </div>
                     </div>
                 )}
 

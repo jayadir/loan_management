@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
+    interest_rate DECIMAL(5,2) DEFAULT 5.00,
     role ENUM('admin', 'customer') DEFAULT 'customer',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -54,5 +55,21 @@ CREATE TABLE IF NOT EXISTS repayments (
     amount DECIMAL(10, 2) NOT NULL,
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (loan_id) REFERENCES loans(id) ON DELETE CASCADE
+);
+
+-- Repayment schedule generated on approval
+CREATE TABLE IF NOT EXISTS repayment_schedule (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    loan_id INT NOT NULL,
+    installment_no INT NOT NULL,
+    due_date DATE NOT NULL,
+    emi DECIMAL(10,2) NOT NULL,
+    principal DECIMAL(10,2) NOT NULL,
+    interest DECIMAL(10,2) NOT NULL,
+    remaining DECIMAL(10,2) NOT NULL,
+    status ENUM('upcoming','paid','overdue') DEFAULT 'upcoming',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (loan_id) REFERENCES loans(id) ON DELETE CASCADE,
+    UNIQUE KEY uniq_loan_installment (loan_id, installment_no)
 );
 

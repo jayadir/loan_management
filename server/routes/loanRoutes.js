@@ -39,4 +39,7 @@ router.patch('/:id/document/:docType/status', authMiddleware, loanController.upd
 // List audit history for a loan
 router.get('/:id/history', authMiddleware, loanController.getStatusHistory);
 
+// Fetch repayment schedule for a loan
+router.get('/:id/schedule', authMiddleware, loanController.getRepaymentSchedule);
+
 module.exports = router;
